@@ -38,7 +38,7 @@ class VideoSlider(QSlider):
     def mouseMoveEvent(self, e):
         if self.__pressed:
             e.accept()
-            value = self.__setPositionAndGetValue(e)
+            value = int(self.__setPositionAndGetValue(e))
             self.updatePosition.emit(value)
         return super().mouseMoveEvent(e)
 
@@ -46,6 +46,6 @@ class VideoSlider(QSlider):
         if e.button() == Qt.LeftButton:
             self.__pressed = False
             e.accept()
-            value = self.__setPositionAndGetValue(e)
+            value = int(self.__setPositionAndGetValue(e))
             self.seeked.emit(value)
         return super().mouseReleaseEvent(e)
