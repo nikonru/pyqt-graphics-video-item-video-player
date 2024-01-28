@@ -7,7 +7,7 @@ Video(mp4 file only) player using QGraphicsVideoItem. Control widget at the bott
 PyQt5 >= 5.8
 
 ## Setup
-`python -m pip install git+https://github.com/yjg30737/pyqt-graphics-video-item-video-player --upgrade`
+`python -m pip install git+https://github.com/nikonru/pyqt-graphics-video-item-video-player --upgrade`
 
 ## Included Packages
 * <a href="https://mutagen.readthedocs.io/en/latest/index.html">mutagen</a>
