@@ -12,7 +12,7 @@ class VideoPlayer(QWidget):
         super().__init__()
         self.__initUi()
 
-    def __initUi(self):
+    def __initUi(self, volume=True):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
         self.__view.setMouseTracking(True)
@@ -23,7 +23,7 @@ class VideoPlayer(QWidget):
         
         self.__hideShowInterval = 2000
 
-        self.__videoControlWidget = VideoControlWidget()
+        self.__videoControlWidget = VideoControlWidget(volume)
         self.__videoControlWidget.setPlayer(self.__mediaPlayer)
         self.__videoControlWidget.played.connect(self.__initPlay)
         self.__videoControlWidget.seeked.connect(self.__seekPosition)
@@ -47,6 +47,12 @@ class VideoPlayer(QWidget):
         mediaContent = QMediaContent(QUrl.fromLocalFile(filename))
         self.__mediaPlayer.setMedia(mediaContent)
         self.__videoControlWidget.setMedia(filename)
+
+    def stop(self):
+        self.__videoControlWidget.stop()
+
+    def play(self):
+        self.__videoControlWidget.play()
 
     def __timerInit(self):
         self.__timer = QTimer()

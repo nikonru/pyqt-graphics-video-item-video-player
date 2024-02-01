@@ -2,10 +2,11 @@ from mutagen import mp4
 
 from PyQt5.QtCore import QUrl, pyqtSignal
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout
 
+from pyqt_svg_button.svgButton import SvgButton
 from pyqt_graphics_video_item_video_player.videoSlider import VideoSlider
-from pyqt_resource_helper.pyqtResourceHelper import PyQtResourceHelper
+from pyqt_media_slider.mediaSlider import MediaSlider
 from PyQt5.QtCore import Qt
 
 
@@ -14,12 +15,13 @@ class VideoControlWidget(QWidget):
     seeked = pyqtSignal(int)
     containsCursor = pyqtSignal(bool)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, volume, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__initUi()
+        self.__initUi(volume)
 
-    def __initUi(self):
+    def __initUi(self, volume, volume_width=100):
         self.__timer_lbl = QLabel()
+        self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
 
         self.__slider = VideoSlider()
@@ -27,56 +29,69 @@ class VideoControlWidget(QWidget):
         self.__slider.updatePosition.connect(self.updatePosition)
 
         self.__timer_lbl.setText('00:00:00')
+        self.__slash.setText('/')
         self.__cur_len_lbl.setText('00:00:00')
 
         lay = QHBoxLayout()
-        lay.addWidget(self.__timer_lbl)
         lay.addWidget(self.__slider)
+        lay.addWidget(self.__timer_lbl)
+        lay.addWidget(self.__slash)
         lay.addWidget(self.__cur_len_lbl)
         lay.setContentsMargins(0, 0, 0, 0)
 
         topWidget = QWidget()
         topWidget.setLayout(lay)
 
-        self.__playBtn = QPushButton()
+        self.__playBtn = SvgButton()
         self.__playBtn.setEnabled(False)
 
-        self.__stopBtn = QPushButton()
+        self.__stopBtn = SvgButton()
         self.__stopBtn.setEnabled(False)
 
-        btns = [self.__playBtn, self.__stopBtn]
-
-        PyQtResourceHelper.setStyleSheet(btns, ['style/button.css'])
-        PyQtResourceHelper.setIcon(btns, ['ico/play.png', 'ico/stop.png'])
+        self.__stopBtn.setIcon('ico/stop.svg')
+        self.__playBtn.setIcon('ico/play.svg')
 
         self.setStyleSheet('QLabel { color: white; }')
 
         self.__playBtn.clicked.connect(self.togglePlayback)
         self.__stopBtn.clicked.connect(self.stop)
 
+        if volume:
+            self.__volume = 100
+            self.__mute = False
+
+            self.__volume_slider = MediaSlider()
+            self.__volume_slider.setFixedWidth(volume_width)
+            self.__volume_slider.setSliderPosition(self.__volume * 100)
+            self.__volume_slider.released.connect(self.__volumeChanged)
+            self.__volume_slider.dragged.connect(self.__volumeChanged)
+
+            self.__muteBtn = SvgButton()
+            self.__muteBtn.setIcon('ico/volume.svg')
+            self.__muteBtn.setObjectName('mute')
+
+            self.__muteBtn.clicked.connect(self.__toggleMute)
+
+            lay.addWidget(self.__muteBtn)
+            lay.addWidget(self.__volume_slider)
+
         lay = QHBoxLayout()
-        for btn in btns:
-            lay.addWidget(btn)
+        lay.addWidget(self.__playBtn)
+        lay.addWidget(self.__stopBtn)
         lay.setSpacing(0)
         lay.setContentsMargins(4, 0, 4, 0)
 
         btnWidget = QWidget()
         btnWidget.setLayout(lay)
-        btnWidget.setStyleSheet('QWidget { '
-                                'border: 1px solid #444; '
-                                'padding: 5px; '
-                                'border-radius: 10px; '
-                                'background-color: #BBB;}'
-                                )
 
-        btnWidget.setMinimumWidth(btnWidget.sizeHint().width()*2)
-        btnWidget.setMinimumHeight(btnWidget.sizeHint().height()*2)
+        btnWidget.setMinimumWidth(btnWidget.sizeHint().width()*1)
+        btnWidget.setMinimumHeight(btnWidget.sizeHint().height()*1)
 
-        btnWidget.setMaximumWidth(btnWidget.sizeHint().width()*3)
-        btnWidget.setMaximumHeight(btnWidget.sizeHint().height()*3)
+        btnWidget.setMaximumWidth(btnWidget.sizeHint().width()*2)
+        btnWidget.setMaximumHeight(btnWidget.sizeHint().height()*2)
 
         lay = QHBoxLayout()
-        lay.setAlignment(Qt.AlignCenter)
+        lay.setAlignment(Qt.AlignLeft)
         lay.addWidget(btnWidget)
         lay.setContentsMargins(0, 0, 0, 0)
 
@@ -89,6 +104,10 @@ class VideoControlWidget(QWidget):
         lay.setSpacing(2)
 
         self.setLayout(lay)
+
+    def __volumeChanged(self, pos):
+        self.__volume = pos // 100
+        self.__mediaPlayer.setVolume(self.__volume)
 
     def __getMediaLengthHumanFriendly(self, filename):
         media = mp4.MP4(filename)
@@ -135,13 +154,13 @@ class VideoControlWidget(QWidget):
         self.__cur_len_lbl.setText(self.__getMediaLengthHumanFriendly(filename))
 
     def play(self):
-        PyQtResourceHelper.setIcon([self.__playBtn], ['ico/pause.png'])
+        self.__playBtn.setIcon('ico/pause.svg')
         self.__mediaPlayer.play()
         self.played.emit(True)
         self.__stopBtn.setEnabled(True)
 
     def pause(self):
-        PyQtResourceHelper.setIcon([self.__playBtn], ['ico/play.png'])
+        self.__playBtn.setIcon('ico/play.svg')
         self.__mediaPlayer.pause()
 
     def togglePlayback(self):
@@ -152,8 +171,23 @@ class VideoControlWidget(QWidget):
         else:
             self.play()
 
+    def __toggleMute(self):
+        self.__mute = not self.__mute
+        self.__volume_slider.setEnabled(not self.__mute)
+
+        if self.__mute:
+            self.__volume_slider.setSliderPosition(0)
+            self.__mediaPlayer.setVolume(0)
+            self.__muteBtn.setIcon('ico/mute.svg')
+        else:
+            self.__volume_slider.setSliderPosition(self.__volume * 100)
+            self.__mediaPlayer.setVolume(self.__volume)
+            self.__muteBtn.setIcon('ico/volume.svg')
+
+        self.__muteBtn.setObjectName('mute')
+
     def stop(self):
-        PyQtResourceHelper.setIcon([self.__playBtn], ['ico/play.png'])
+        self.__playBtn.setIcon('ico/play.svg')
         self.__mediaPlayer.stop()
         self.__stopBtn.setEnabled(False)
         self.played.emit(False)
