@@ -90,6 +90,9 @@ class VideoPlayer(QWidget):
 
     def __setRemainControlWidgetVisible(self, f):
         if f:
-            self.__timer.timeout.disconnect()
+            try:
+                self.__timer.timeout.disconnect()
+            except TypeError:
+                pass
         else:
             self.__timer.timeout.connect(self.__bottomWidgetToggled)
