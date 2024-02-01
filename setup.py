@@ -8,7 +8,8 @@ setup(
     license='MIT',
     packages=find_packages(),
     description='PyQt video player widget',
-    package_data={'pyqt_graphics_video_item_video_player.ico': ['pause.png', 'play.png', 'stop.png']},
+    package_data={'pyqt_graphics_video_item_video_player.style': ['slider.css'],
+                  'pyqt_graphics_video_item_video_player.ico': ['pause.svg', 'play.svg', 'stop.svg', 'mute.svg', 'volume.svg']},
     url='https://github.com/nikonru/pyqt-graphics-video-item-video-player.git',
     install_requires=[
         'mutagen',
