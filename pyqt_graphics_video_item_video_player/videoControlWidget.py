@@ -77,13 +77,14 @@ class VideoControlWidget(QWidget):
             lay.addWidget(self.__muteBtn)
             lay.addWidget(self.__volume_slider)
 
-        lay.setContentsMargins(50, 0, 40, 0)
+        margins = (50, 0, 40, 0)
+        lay.setContentsMargins(*margins)
 
         lay = QHBoxLayout()
         lay.addWidget(self.__playBtn)
         lay.addWidget(self.__stopBtn)
         lay.setSpacing(0)
-        lay.setContentsMargins(4, 0, 4, 0)
+        lay.setContentsMargins(*margins)
 
         btnWidget = QWidget()
         btnWidget.setLayout(lay)
@@ -106,7 +107,7 @@ class VideoControlWidget(QWidget):
         lay.addWidget(topWidget)
         lay.addWidget(bottomWidget)
         lay.setSpacing(0)
-        lay.setContentsMargins(0, 0, 0, 16)
+        lay.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(lay)
 
