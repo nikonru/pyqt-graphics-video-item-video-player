@@ -15,11 +15,11 @@ class VideoControlWidget(QWidget):
     seeked = pyqtSignal(int)
     containsCursor = pyqtSignal(bool)
 
-    def __init__(self, volume, *args, **kwargs):
+    def __init__(self, volume, control_alignment, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__initUi(volume)
+        self.__initUi(volume, control_alignment)
 
-    def __initUi(self, volume, volume_width=100):
+    def __initUi(self, volume, control_alignment, volume_width=100):
         self.__timer_lbl = QLabel()
         self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
@@ -91,7 +91,7 @@ class VideoControlWidget(QWidget):
         btnWidget.setMaximumHeight(btnWidget.sizeHint().height()*2)
 
         lay = QHBoxLayout()
-        lay.setAlignment(Qt.AlignLeft)
+        lay.setAlignment(control_alignment)
         lay.addWidget(btnWidget)
         lay.setContentsMargins(0, 0, 0, 0)
 
