@@ -1,6 +1,7 @@
+from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QUrl, QTimer, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtWidgets import QWidget, QGridLayout
+from PyQt5.QtWidgets import QWidget, QGridLayout, QShortcut
 
 from pyqt_graphics_video_item_video_player.videoControlWidget import VideoControlWidget
 from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphicsView
@@ -31,6 +32,14 @@ class VideoPlayer(QWidget):
 
         self.__videoControlWidget.setVisible(False)
         self.__videoControlWidget.setMaximumHeight(75)
+
+        self.__shortcut = QShortcut(QKeySequence(Qt.Key_Space), self)
+
+        def on_spacebar_pressed():
+            self.__videoControlWidget.setVisible(True)
+            self.__videoControlWidget.togglePlayback()
+
+        self.__shortcut.activated.connect(on_spacebar_pressed)
 
         lay = QGridLayout()
         lay.addWidget(self.__view, 0, 0, 2, 1)

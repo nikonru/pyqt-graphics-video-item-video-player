@@ -1,9 +1,8 @@
 from mutagen import mp4
 
-from PyQt5.QtGui import QKeySequence
-from PyQt5.QtCore import QUrl, pyqtSignal, Qt
+from PyQt5.QtCore import QUrl, pyqtSignal
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QShortcut
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout
 
 from pyqt_svg_button.svgButton import SvgButton
 from pyqt_graphics_video_item_video_player.videoSlider import VideoSlider
@@ -23,9 +22,6 @@ class VideoControlWidget(QWidget):
         self.__timer_lbl = QLabel()
         self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
-
-        self.__shortcut = QShortcut(QKeySequence(Qt.Key_Space), self)
-        self.__shortcut.activated.connect(self.togglePlayback)
 
         self.__slider = VideoSlider()
         self.__slider.seeked.connect(self.seeked)
