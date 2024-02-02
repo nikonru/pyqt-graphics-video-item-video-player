@@ -14,7 +14,7 @@ setup(
     install_requires=[
         'mutagen',
         'PyQt5>=5.8',
-        'pyqt-svg-button>=0.0.1',
+        'pyqt-svg-button @ git+https://github.com/nikonru/pyqt-svg-button',
         'pyqt-media-slider @ git+https://github.com/nikonru/pyqt-media-slider'
     ]
 )
