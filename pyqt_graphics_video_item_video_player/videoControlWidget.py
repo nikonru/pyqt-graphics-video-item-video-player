@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout
 from pyqt_svg_button.svgButton import SvgButton
 from pyqt_graphics_video_item_video_player.videoSlider import VideoSlider
 from pyqt_media_slider.mediaSlider import MediaSlider
-from PyQt5.QtCore import Qt
 
 
 class VideoControlWidget(QWidget):

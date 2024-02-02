@@ -1,7 +1,23 @@
 from PyQt5.QtWidgets import QSlider
 from PyQt5.QtCore import Qt, pyqtSignal
 
-from pyqt_resource_helper.pyqtResourceHelper import PyQtResourceHelper
+
+def get_slider_style():
+    return """
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 3px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
+    border: 1px solid #5c5c5c;
+    width: 6px;
+    margin: -6px 0;
+    border-radius: 3px;
+}"""
 
 
 class VideoSlider(QSlider):
@@ -15,8 +31,7 @@ class VideoSlider(QSlider):
 
     def __initUi(self):
         self.setOrientation(Qt.Horizontal)
-
-        PyQtResourceHelper.setStyleSheet([self], ['style/slider.css'])
+        self.setStyleSheet(get_slider_style())
         self.setFixedHeight(20)
 
         self.setMouseTracking(True)
