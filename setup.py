@@ -14,6 +14,7 @@ setup(
     install_requires=[
         'mutagen',
         'PyQt5>=5.8',
-        'pyqt-resource-helper>=0.0.1'
+        'pyqt-svg-button>=0.0.1',
+        'pyqt-media-slider @ git+https://github.com/nikonru/pyqt-media-slider'
     ]
 )
