@@ -58,7 +58,7 @@ class VideoControlWidget(QWidget):
             self.__volume = 100
             self.__mute = False
 
-            self.__volume_slider = MediaSlider()
+            self.__volume_slider = MediaSlider(style=style)
             self.__volume_slider.setFixedWidth(volume_width)
             self.__volume_slider.setSliderPosition(self.__volume * 100)
             self.__volume_slider.released.connect(self.__volumeChanged)
