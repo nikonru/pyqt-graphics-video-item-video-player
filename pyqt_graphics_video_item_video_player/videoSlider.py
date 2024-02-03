@@ -5,18 +5,24 @@ from PyQt5.QtCore import Qt, pyqtSignal
 def get_slider_style():
     return """
 QSlider::groove:horizontal {
-    border: 1px solid #999999;
-    height: 3px;
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
     margin: 2px 0;
+    
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px;
 }
 
 QSlider::handle:horizontal {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
-    border: 1px solid #5c5c5c;
-    width: 6px;
-    margin: -6px 0;
     border-radius: 3px;
+    
+    background-color: red; 
+	border: 2px solid red; 
+	width: 16px; 
+	height: 20px; 
+	line-height: 20px; 
+	margin-top: -5px; 
+	margin-bottom: -5px; 
+	border-radius: 10px; 
 }"""
 
 
@@ -24,14 +30,17 @@ class VideoSlider(QSlider):
     seeked = pyqtSignal(int)
     updatePosition = pyqtSignal(int)
 
-    def __init__(self):
+    def __init__(self, style=None):
         super().__init__()
         self.__pressed = None
-        self.__initUi()
+        if not style:
+            self.__initUi(get_slider_style())
+        else:
+            self.__initUi(style)
 
-    def __initUi(self):
+    def __initUi(self, style):
         self.setOrientation(Qt.Horizontal)
-        self.setStyleSheet(get_slider_style())
+        self.setStyleSheet(style)
         self.setFixedHeight(20)
 
         self.setMouseTracking(True)

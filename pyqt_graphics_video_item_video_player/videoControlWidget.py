@@ -14,16 +14,16 @@ class VideoControlWidget(QWidget):
     seeked = pyqtSignal(int)
     containsCursor = pyqtSignal(bool)
 
-    def __init__(self, volume, control_alignment, *args, **kwargs):
+    def __init__(self, volume, control_alignment, style=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__initUi(volume, control_alignment)
+        self.__initUi(volume, control_alignment, style)
 
-    def __initUi(self, volume, control_alignment, volume_width=100):
+    def __initUi(self, volume, control_alignment, style, volume_width=100):
         self.__timer_lbl = QLabel()
         self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
 
-        self.__slider = VideoSlider()
+        self.__slider = VideoSlider(style=style)
         self.__slider.seeked.connect(self.seeked)
         self.__slider.updatePosition.connect(self.updatePosition)
 

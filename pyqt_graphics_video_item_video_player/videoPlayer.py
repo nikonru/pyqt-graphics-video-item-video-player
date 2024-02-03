@@ -9,11 +9,11 @@ from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphic
 
 class VideoPlayer(QWidget):
 
-    def __init__(self, control_alignment=Qt.AlignCenter, volume=True):
+    def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None):
         super().__init__()
-        self.__initUi(control_alignment, volume)
+        self.__initUi(control_alignment, volume, style)
 
-    def __initUi(self, control_alignment, volume):
+    def __initUi(self, control_alignment, volume, style):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
         self.__view.setMouseTracking(True)
@@ -24,7 +24,7 @@ class VideoPlayer(QWidget):
         
         self.__hideShowInterval = 2000
 
-        self.__videoControlWidget = VideoControlWidget(volume, control_alignment=control_alignment)
+        self.__videoControlWidget = VideoControlWidget(volume, control_alignment=control_alignment, style=style)
         self.__videoControlWidget.setPlayer(self.__mediaPlayer)
         self.__videoControlWidget.played.connect(self.__initPlay)
         self.__videoControlWidget.seeked.connect(self.__seekPosition)
