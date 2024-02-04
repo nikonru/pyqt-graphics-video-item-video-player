@@ -68,7 +68,7 @@ class VideoControlWidget(QWidget):
             self.__muteBtn.setIcon('ico/volume.svg')
             self.__muteBtn.setObjectName('mute')
 
-            self.__muteBtn.clicked.connect(self.__toggleMute)
+            self.__muteBtn.clicked.connect(self.toggleMute)
 
             lay.addWidget(self.__muteBtn)
             lay.addWidget(self.__volume_slider)
@@ -107,7 +107,7 @@ class VideoControlWidget(QWidget):
 
         self.setLayout(lay)
 
-    def getVolume(self, volume):
+    def getVolume(self):
         return self.__volume
 
     def setVolume(self, volume):
@@ -182,7 +182,7 @@ class VideoControlWidget(QWidget):
         else:
             self.play()
 
-    def __toggleMute(self):
+    def toggleMute(self):
         self.__mute = not self.__mute
         self.__volume_slider.setEnabled(not self.__mute)
 
