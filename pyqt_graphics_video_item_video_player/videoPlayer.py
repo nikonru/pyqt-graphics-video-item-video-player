@@ -1,7 +1,7 @@
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QUrl, QTimer, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtWidgets import QWidget, QGridLayout, QShortcut
+from PyQt5.QtWidgets import QWidget, QGridLayout, QShortcut, QFrame
 
 from pyqt_graphics_video_item_video_player.videoControlWidget import VideoControlWidget
 from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphicsView
@@ -16,12 +16,12 @@ class VideoPlayer(QWidget):
     def __initUi(self, control_alignment, volume, style):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
+        self.__view.setFrameStyle(QFrame.NoFrame)
         self.__view.setMouseTracking(True)
         self.__view.setMedia.connect(self.setMedia)
         self.__view.mouseMoveEvent = self.mouseMoveEvent
 
         self.__mediaPlayer.setVideoOutput(self.__view.getItem())
-        
         self.__hideShowInterval = 2000
 
         self.__videoControlWidget = VideoControlWidget(volume, control_alignment=control_alignment, style=style)
@@ -45,7 +45,6 @@ class VideoPlayer(QWidget):
         lay.addWidget(self.__view, 0, 0, 2, 1)
         lay.addWidget(self.__videoControlWidget, 1, 0, 1, 1)
         lay.setContentsMargins(0, 0, 0, 0)
-
         self.setLayout(lay)
 
         self.setMouseTracking(True)
@@ -71,10 +70,12 @@ class VideoPlayer(QWidget):
     def __bottomWidgetToggled(self):
         self.__timer.stop()
         self.__videoControlWidget.setVisible(False)
+        self.setCursor(Qt.BlankCursor)
 
     def __timerStart(self):
         self.__videoControlWidget.setVisible(True)
         self.__timer.start()
+        self.setCursor(Qt.ArrowCursor)
 
     def __seekPosition(self, pos):
         self.__mediaPlayer.setPosition(pos)
