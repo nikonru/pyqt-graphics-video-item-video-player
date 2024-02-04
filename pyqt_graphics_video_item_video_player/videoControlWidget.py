@@ -107,9 +107,14 @@ class VideoControlWidget(QWidget):
 
         self.setLayout(lay)
 
+    def getVolume(self, volume):
+        return self.__volume
+
     def setVolume(self, volume):
         assert 0 <= volume <= 100
         self.__volume = int(volume)
+        self.__mediaPlayer.setVolume(self.__volume)
+        self.__volume_slider.setSliderPosition(self.__volume * 100)
 
     def __volumeChanged(self, pos):
         self.__volume = pos // 100
