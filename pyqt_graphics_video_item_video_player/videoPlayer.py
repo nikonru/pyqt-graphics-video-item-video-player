@@ -51,6 +51,9 @@ class VideoPlayer(QWidget):
 
         self.__timerInit()
 
+    def getControlWidget(self):
+        return self.__videoControlWidget
+
     def setMedia(self, filename):
         mediaContent = QMediaContent(QUrl.fromLocalFile(filename))
         self.__mediaPlayer.setMedia(mediaContent)
