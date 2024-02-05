@@ -14,11 +14,11 @@ class VideoControlWidget(QWidget):
     seeked = pyqtSignal(int)
     containsCursor = pyqtSignal(bool)
 
-    def __init__(self, volume, control_alignment, style=None, *args, **kwargs):
+    def __init__(self, volume, control_alignment, style=None, spacing=(5, 5, 30, 30), *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__initUi(volume, control_alignment, style)
+        self.__initUi(volume, control_alignment, style, spacing)
 
-    def __initUi(self, volume, control_alignment, style, volume_width=100):
+    def __initUi(self, volume, control_alignment, style, spacing, volume_width=100):
         self.__timer_lbl = QLabel()
         self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
@@ -27,15 +27,18 @@ class VideoControlWidget(QWidget):
         self.__slider.seeked.connect(self.seeked)
         self.__slider.updatePosition.connect(self.updatePosition)
 
-        self.__timer_lbl.setText('00:00:00')
+        timer_lay = QHBoxLayout()
+        self.__timer_lbl.setText('00:00')
         self.__slash.setText('/')
-        self.__cur_len_lbl.setText('00:00:00')
+        self.__cur_len_lbl.setText('00:00')
+        timer_lay.addWidget(self.__timer_lbl)
+        timer_lay.addWidget(self.__slash)
+        timer_lay.addWidget(self.__cur_len_lbl)
+        timer_lay.setSpacing(spacing[0])
 
         lay = QHBoxLayout()
         lay.addWidget(self.__slider)
-        lay.addWidget(self.__timer_lbl)
-        lay.addWidget(self.__slash)
-        lay.addWidget(self.__cur_len_lbl)
+        lay.addLayout(timer_lay)
 
         topWidget = QWidget()
         topWidget.setLayout(lay)
@@ -69,10 +72,14 @@ class VideoControlWidget(QWidget):
             self.__muteBtn.setObjectName('mute')
 
             self.__muteBtn.clicked.connect(self.toggleMute)
+            self.__muteBtn.setFixedWidth(spacing[3])
+            mute_lay = QHBoxLayout()
+            mute_lay.addWidget(self.__muteBtn)
+            mute_lay.addWidget(self.__volume_slider)
+            mute_lay.setSpacing(spacing[1])
+            lay.addLayout(mute_lay)
 
-            lay.addWidget(self.__muteBtn)
-            lay.addWidget(self.__volume_slider)
-
+        lay.setSpacing(spacing[2])
         margins = (50, 0, 40, 0)
         lay.setContentsMargins(*margins)
 
@@ -129,7 +136,7 @@ class VideoControlWidget(QWidget):
         m = int(media_length / 60)
         media_length -= (m * 60)
         s = media_length
-        song_length = '{:0>2d}:{:0>2d}:{:0>2d}'.format(int(h), int(m), int(s))
+        song_length = '{:0>2d}:{:0>2d}'.format(int(m), int(s))
 
         return song_length
 
@@ -141,7 +148,7 @@ class VideoControlWidget(QWidget):
         minutes = int(minutes)
         hours = (millis / (1000 * 60 * 60)) % 24
 
-        return "%02d:%02d:%02d" % (hours, minutes, seconds)
+        return "%02d:%02d" % (minutes, seconds)
 
     def updatePosition(self, pos):
         self.__slider.setValue(pos)
