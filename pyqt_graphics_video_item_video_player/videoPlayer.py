@@ -9,11 +9,12 @@ from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphic
 
 class VideoPlayer(QWidget):
 
-    def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None, spacing=(0, 0, 0, 30)):
+    def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None, spacing=(0, 0, 0, 30),
+                 show_control_on_spacebar=False):
         super().__init__()
-        self.__initUi(control_alignment, volume, style, spacing)
+        self.__initUi(control_alignment, volume, style, spacing, show_control_on_spacebar)
 
-    def __initUi(self, control_alignment, volume, style, spacing):
+    def __initUi(self, control_alignment, volume, style, spacing, show_control_on_spacebar):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
         self.__view.setFrameStyle(QFrame.NoFrame)
@@ -37,7 +38,7 @@ class VideoPlayer(QWidget):
         self.__shortcut = QShortcut(QKeySequence(Qt.Key_Space), self)
 
         def on_spacebar_pressed():
-            self.__videoControlWidget.setVisible(True)
+            self.__videoControlWidget.setVisible(show_control_on_spacebar)
             self.__videoControlWidget.togglePlayback()
 
         self.__shortcut.activated.connect(on_spacebar_pressed)
