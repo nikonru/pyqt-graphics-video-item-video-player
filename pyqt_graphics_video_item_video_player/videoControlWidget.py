@@ -80,7 +80,7 @@ class VideoControlWidget(QWidget):
             lay.addLayout(mute_lay)
 
         lay.setSpacing(spacing[2])
-        margins = (10, 0, 5, 0) if buttons_down else (50, 0, 40, 0)
+        margins = (50, 0, 40, 0) if buttons_down else (10, 0, 5, 0)
         lay.setContentsMargins(*margins)
 
         lay = QHBoxLayout()
