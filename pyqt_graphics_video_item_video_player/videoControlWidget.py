@@ -14,11 +14,11 @@ class VideoControlWidget(QWidget):
     seeked = pyqtSignal(int)
     containsCursor = pyqtSignal(bool)
 
-    def __init__(self, volume, control_alignment, style=None, spacing=(5, 5, 30, 30), *args, **kwargs):
+    def __init__(self, volume, control_alignment, style=None, spacing=(5, 5, 30, 30), buttons_down=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__initUi(volume, control_alignment, style, spacing)
+        self.__initUi(volume, control_alignment, style, spacing, buttons_down)
 
-    def __initUi(self, volume, control_alignment, style, spacing, volume_width=100):
+    def __initUi(self, volume, control_alignment, style, spacing, buttons_down, volume_width=100):
         self.__timer_lbl = QLabel()
         self.__slash = QLabel()
         self.__cur_len_lbl = QLabel()
@@ -40,8 +40,8 @@ class VideoControlWidget(QWidget):
         lay.addWidget(self.__slider)
         lay.addLayout(timer_lay)
 
-        topWidget = QWidget()
-        topWidget.setLayout(lay)
+        timeline = QWidget()
+        timeline.setLayout(lay)
 
         self.__playBtn = SvgButton()
         self.__playBtn.setEnabled(False)
@@ -80,7 +80,7 @@ class VideoControlWidget(QWidget):
             lay.addLayout(mute_lay)
 
         lay.setSpacing(spacing[2])
-        margins = (50, 0, 40, 0)
+        margins = (10, 0, 5, 0) if buttons_down else (50, 0, 40, 0)
         lay.setContentsMargins(*margins)
 
         lay = QHBoxLayout()
@@ -103,12 +103,18 @@ class VideoControlWidget(QWidget):
         lay.addWidget(btnWidget)
         lay.setContentsMargins(0, 0, 0, 0)
 
-        bottomWidget = QWidget()
-        bottomWidget.setLayout(lay)
+        buttons = QWidget()
+        buttons.setLayout(lay)
 
-        lay = QVBoxLayout()
-        lay.addWidget(topWidget)
-        lay.addWidget(bottomWidget)
+        if buttons_down:
+            lay = QVBoxLayout()
+            lay.addWidget(timeline)
+            lay.addWidget(buttons)
+        else:
+            lay = QHBoxLayout()
+            lay.addWidget(buttons)
+            lay.addWidget(timeline)
+
         lay.setSpacing(0)
         lay.setContentsMargins(0, 0, 0, 0)
 

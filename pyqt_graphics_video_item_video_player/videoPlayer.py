@@ -9,12 +9,12 @@ from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphic
 
 class VideoPlayer(QWidget):
 
-    def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None, spacing=(0, 0, 0, 30),
-                 show_control_on_spacebar=False):
+    def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None, spacing=(0, 0, 0, 30), max_height=75,
+                 show_control_on_spacebar=False, buttons_down=False):
         super().__init__()
-        self.__initUi(control_alignment, volume, style, spacing, show_control_on_spacebar)
+        self.__initUi(control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down)
 
-    def __initUi(self, control_alignment, volume, style, spacing, show_control_on_spacebar):
+    def __initUi(self, control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
         self.__view.setFrameStyle(QFrame.NoFrame)
@@ -26,14 +26,14 @@ class VideoPlayer(QWidget):
         self.__hideShowInterval = 2000
 
         self.__videoControlWidget = VideoControlWidget(volume, control_alignment=control_alignment, style=style,
-                                                       spacing=spacing)
+                                                       spacing=spacing, buttons_down=buttons_down)
         self.__videoControlWidget.setPlayer(self.__mediaPlayer)
         self.__videoControlWidget.played.connect(self.__initPlay)
         self.__videoControlWidget.seeked.connect(self.__seekPosition)
         self.__videoControlWidget.containsCursor.connect(self.__setRemainControlWidgetVisible)
 
         self.__videoControlWidget.setVisible(False)
-        self.__videoControlWidget.setMaximumHeight(75)
+        self.__videoControlWidget.setMaximumHeight(max_height)
 
         self.__shortcut = QShortcut(QKeySequence(Qt.Key_Space), self)
 
