@@ -21,6 +21,7 @@ class VideoPlayer(QWidget):
         self.__view.setMouseTracking(True)
         self.__view.setMedia.connect(self.setMedia)
         self.__view.mouseMoveEvent = self.mouseMoveEvent
+        self.__view.setFocusPolicy(Qt.NoFocus)
 
         self.__mediaPlayer.setVideoOutput(self.__view.getItem())
         self.__hideShowInterval = 2000
