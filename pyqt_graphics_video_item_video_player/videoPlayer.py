@@ -91,6 +91,7 @@ class VideoPlayer(QWidget):
         return super().enterEvent(e)
 
     def mouseMoveEvent(self, e):
+        self.__videoControlWidget.setVisible(True)
         if self.__timer.isActive():
             self.__timer.setInterval(self.__hideShowInterval)
         else:
