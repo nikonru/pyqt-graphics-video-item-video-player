@@ -63,3 +63,6 @@ class VideoGraphicsView(QGraphicsView):
     def resizeEvent(self, e):
         self.initPlay()
         return super().resizeEvent(e)
+
+    def scrollContentsBy(self, dx, dy):
+        pass
