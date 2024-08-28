@@ -142,7 +142,8 @@ class VideoControlWidget(QWidget):
         m = int(media_length / 60)
         media_length -= (m * 60)
         s = media_length
-        song_length = '{:0>2d}:{:0>2d}'.format(int(m), int(s))
+        song_length = '{:0>2d}:{:0>2d}'.format((int(m) + 1) if m - int(m) > 0.5 else int(m),
+                                               (int(s) + 1) if s - int(s) > 0.5 else int(s))
 
         return song_length
 
