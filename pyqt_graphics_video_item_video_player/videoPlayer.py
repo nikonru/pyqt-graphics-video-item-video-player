@@ -23,6 +23,13 @@ class VideoPlayer(QWidget):
         self.__view.mouseMoveEvent = self.mouseMoveEvent
         self.__view.setFocusPolicy(Qt.NoFocus)
 
+        def video_ends(status):
+            if status == QMediaPlayer.EndOfMedia:
+                self.stop()
+
+        self.__mediaPlayer.mediaStatusChanged.connect(video_ends)
+
+
         self.__mediaPlayer.setVideoOutput(self.__view.getItem())
         self.__hideShowInterval = 2000
 
