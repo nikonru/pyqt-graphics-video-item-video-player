@@ -61,6 +61,10 @@ class VideoPlayer(QWidget):
 
         self.__timerInit()
 
+    def resizeEvent(self, e):
+        self.__view.resize(e.size())
+        return super().resizeEvent(e)
+
     def getControlWidget(self):
         return self.__videoControlWidget
 

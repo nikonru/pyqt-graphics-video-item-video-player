@@ -39,6 +39,10 @@ class VideoGraphicsView(QGraphicsView):
 
     def initPlay(self):
         if self.__item:
+            w_f = float(self.contentsRect().size().width())
+            h_f = float(self.contentsRect().size().height())
+            self.__item.setSize(QSizeF(w_f, h_f))
+
             self.fitInView(self.__item, Qt.KeepAspectRatio)
 
     def dragEnterEvent(self, e):
