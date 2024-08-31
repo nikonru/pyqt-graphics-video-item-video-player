@@ -23,6 +23,9 @@ class VideoPlayer(QWidget):
         self.__view.mouseMoveEvent = self.mouseMoveEvent
         self.__view.setFocusPolicy(Qt.NoFocus)
 
+        self.__view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.__view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
         def video_ends(status):
             if status == QMediaPlayer.EndOfMedia:
                 self.stop()
