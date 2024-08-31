@@ -1,3 +1,4 @@
+from PyQt5 import QtCore
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QUrl, QTimer, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
@@ -66,6 +67,7 @@ class VideoPlayer(QWidget):
 
     def resizeEvent(self, e):
         self.__view.resize(e.size())
+        self.__view.setSceneRect(QtCore.QRectF(0.0, 0.0, self.__view.size().width(), self.__view.size().height()))
         return super().resizeEvent(e)
 
     def getControlWidget(self):
