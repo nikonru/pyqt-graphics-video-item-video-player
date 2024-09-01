@@ -23,7 +23,7 @@ class VideoPlayer(QWidget):
         self.__view.setMedia.connect(self.setMedia)
         self.__view.mouseMoveEvent = self.mouseMoveEvent
         self.__view.setFocusPolicy(Qt.NoFocus)
-
+        self.__view.setRenderHints(QtGui.QPainter.HighQualityAntialiasing | QtGui.QPainter.SmoothPixmapTransform)
         self.__view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.__view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
