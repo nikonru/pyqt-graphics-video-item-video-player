@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QUrl, QTimer, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
