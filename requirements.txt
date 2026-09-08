@@ -1,4 +1,5 @@
 mutagen
 PyQt5>=5.8
+python-vlc>=3.0.21203
 git+https://github.com/nikonru/pyqt-svg-button
 git+https://github.com/nikonru/pyqt-media-slider
