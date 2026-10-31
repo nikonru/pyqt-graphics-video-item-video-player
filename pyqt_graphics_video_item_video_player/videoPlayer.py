@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 import ctypes
 
@@ -13,6 +14,11 @@ from PyQt5.QtWidgets import (
     QFrame,
 )
 
+=======
+from PyQt5 import QtCore
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtCore import QUrl, QTimer, Qt
+>>>>>>> parent of 8c9b25f (fixed import)
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 from pyqt_graphics_video_item_video_player.videoControlWidget import (
