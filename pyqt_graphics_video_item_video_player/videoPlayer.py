@@ -18,14 +18,11 @@ class VideoPlayer(QWidget):
     def __initUi(self, control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
-        self.__view.setFrameStyle(QFrame.NoFrame)
+        self.__view.setStyleSheet("QVideoWidget { border: none; padding: 0; margin: 0; }") # disable frame
         self.__view.setMouseTracking(True)
         self.__view.setMedia.connect(self.setMedia)
         self.__view.mouseMoveEvent = self.mouseMoveEvent
         self.__view.setFocusPolicy(Qt.NoFocus)
-        self.__view.setRenderHints(QtGui.QPainter.HighQualityAntialiasing | QtGui.QPainter.SmoothPixmapTransform)
-        self.__view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.__view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         def video_ends(status):
             if status == QMediaPlayer.EndOfMedia:
@@ -66,8 +63,7 @@ class VideoPlayer(QWidget):
         self.__timerInit()
 
     def resizeEvent(self, e):
-        self.__view.resize(e.size())
-        self.__view.setSceneRect(QtCore.QRectF(0.0, 0.0, self.__view.size().width(), self.__view.size().height()))
+        self.__view.setGeometry(self.rect())#self.__view.resize(e.size())
         return super().resizeEvent(e)
 
     def getControlWidget(self):
