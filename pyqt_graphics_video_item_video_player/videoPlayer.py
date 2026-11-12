@@ -24,9 +24,12 @@ class VideoPlayer(QWidget):
         self.__view.mouseMoveEvent = self.mouseMoveEvent
         self.__view.setFocusPolicy(Qt.NoFocus)
 
+        self.__is_video_ended = False
+
         def video_ends(status):
             if status == QMediaPlayer.EndOfMedia:
                 self.stop()
+                self.__is_video_ended = True
 
         self.__mediaPlayer.mediaStatusChanged.connect(video_ends)
 
@@ -79,6 +82,10 @@ class VideoPlayer(QWidget):
 
     def play(self):
         self.__videoControlWidget.play()
+        self.__is_video_ended = False
+
+    def is_video_ended(self):
+        return self.__is_video_ended
 
     def __timerInit(self):
         self.__timer = QTimer()
