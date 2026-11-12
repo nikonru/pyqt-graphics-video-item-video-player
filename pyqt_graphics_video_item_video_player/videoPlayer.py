@@ -11,11 +11,11 @@ from pyqt_graphics_video_item_video_player.videoGraphicsView import VideoGraphic
 class VideoPlayer(QWidget):
 
     def __init__(self, control_alignment=Qt.AlignCenter, volume=True, style=None, spacing=(0, 0, 0, 30), max_height=75,
-                 show_control_on_spacebar=False, buttons_down=False):
+                 show_control_on_spacebar=False, buttons_down=False, hide_show_interval_ms=2000):
         super().__init__()
-        self.__initUi(control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down)
+        self.__initUi(control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down, hide_show_interval_ms)
 
-    def __initUi(self, control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down):
+    def __initUi(self, control_alignment, volume, style, spacing, max_height, show_control_on_spacebar, buttons_down, hide_show_interval_ms):
         self.__mediaPlayer = QMediaPlayer()
         self.__view = VideoGraphicsView()
         self.__view.setStyleSheet("QVideoWidget { border: none; padding: 0; margin: 0; }") # disable frame
@@ -32,7 +32,7 @@ class VideoPlayer(QWidget):
 
 
         self.__mediaPlayer.setVideoOutput(self.__view.getItem())
-        self.__hideShowInterval = 2000
+        self.__hideShowInterval = hide_show_interval_ms
 
         self.__videoControlWidget = VideoControlWidget(volume, control_alignment=control_alignment, style=style,
                                                        spacing=spacing, buttons_down=buttons_down)
